@@ -1,0 +1,50 @@
+{
+    "name": "PSG",
+    "players": [
+        {
+            "number": "1",
+            "name": "K. Navas",
+            "country": "CRI",
+            "birthDate": "15/12/86",
+            "position": "Gardien",
+            "health": "available",
+            "photo": "navas.jpg"
+        },
+        {
+            "number": "5",
+            "name": "Marquinhos",
+            "country": "BRE",
+            "birthDate": "14/05/94",
+            "position": "Défenseur",
+            "health": "available",
+            "photo": "navas.jpg"
+        },
+        {
+            "number": "11",
+            "name": "A. DI Maria",
+            "country": "ARG",
+            "birthDate": "14/02/88",
+            "position": "Milieu",
+            "health": "out",
+            "photo": "navas.jpg"
+        },
+        {
+            "number": "7",
+            "name": "K. Mbappé",
+            "country": "FRA",
+            "birthDate": "20/12/1998",
+            "position": "Attaquant",
+            "health": "available",
+            "photo": "navas.jpg"
+        },
+        {
+            "number": "10",
+            "name": "Neymar",
+            "country": "BRE",
+            "birthDate": "05/02/92",
+            "position": "Attaquant",
+            "health": "available",
+            "photo": "navas.jpg"
+        }
+    ]
+}

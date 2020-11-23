@@ -1,0 +1,20 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.btn {
+    @apply p-2 text-white rounded-sm focus:outline-none;
+}
+
+.btn-blue {
+    @apply bg-blue-500 hover:bg-blue-400 focus:bg-blue-600;
+}
+
+.btn-red {
+    @apply bg-red-500 hover:bg-red-400 focus:bg-red-600;
+}
+
+.card {
+    height: 150px;
+    @apply flex flex-col w-1/2 justify-center items-center p-3 text-center shadow-lg mb-3;
+}
