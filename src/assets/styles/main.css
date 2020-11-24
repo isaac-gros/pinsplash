@@ -2,33 +2,19 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* Nav */
+* {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
 
+/* Nav */
 #nav {
-    @apply p-3;
+    @apply py-5 flex w-full;
 }
 
 #nav a {
-    @apply font-bold;
+    @apply text-gray-500 mr-12;
 }
 
 #nav a.router-link-exact-active {
-    @apply text-blue-500;
-}
-
-.btn {
-    @apply p-2 text-white rounded-sm focus:outline-none;
-}
-
-.btn-blue {
-    @apply bg-blue-500 hover:bg-blue-400 focus:bg-blue-600;
-}
-
-.btn-red {
-    @apply bg-red-500 hover:bg-red-400 focus:bg-red-600;
-}
-
-.card {
-    height: 150px;
-    @apply flex flex-col lg:w-1/2 md:w-full justify-center items-center p-3 text-center shadow-lg mb-3;
+    @apply font-bold text-gray-800;
 }

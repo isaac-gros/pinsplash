@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from './views/Home.vue'
-import Selection from './views/Selection.vue'
+import Pinned from './views/Pinned.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Accueil',
     component: Home
   },
   {
-    path: '/selection',
-    name: 'Sélection',
-    component: Selection
+    path: '/pinned',
+    name: 'Épingles',
+    component: Pinned
   }
 ]
 
