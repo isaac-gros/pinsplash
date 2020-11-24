@@ -2,6 +2,20 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/* Nav */
+
+#nav {
+    @apply p-3;
+}
+
+#nav a {
+    @apply font-bold;
+}
+
+#nav a.router-link-exact-active {
+    @apply text-blue-500;
+}
+
 .btn {
     @apply p-2 text-white rounded-sm focus:outline-none;
 }
@@ -16,5 +30,5 @@
 
 .card {
     height: 150px;
-    @apply flex flex-col w-1/2 justify-center items-center p-3 text-center shadow-lg mb-3;
+    @apply flex flex-col lg:w-1/2 md:w-full justify-center items-center p-3 text-center shadow-lg mb-3;
 }

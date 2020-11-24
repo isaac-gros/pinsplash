@@ -1,14 +1,3 @@
 <template>
-  <player-view></player-view>
+  <router-view/>
 </template>
-
-<script>
-import PlayerView from './components/PlayerView.vue'
-
-export default {
-  name: 'App',
-  components: {
-    PlayerView
-  }
-}
-</script>
