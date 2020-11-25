@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from './views/Home.vue'
 import Pinned from './views/Pinned.vue'
+import Search from './views/Search.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/pinned',
     name: 'Épingles',
     component: Pinned
+  },
+  { 
+    path: '/search/:query',
+    name: 'Recherche', 
+    component: Search
   }
 ]
 

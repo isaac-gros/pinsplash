@@ -14,7 +14,9 @@
         <photo
           v-for="picture in pins" 
           :key="picture.id"
-          :picture="picture">
+          :picture="picture"
+          :pictureId="picture.id"
+          :ratio="0">
         </photo>
       </div>
     </div>

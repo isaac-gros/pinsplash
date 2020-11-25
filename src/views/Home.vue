@@ -6,7 +6,9 @@
         <photo 
           v-for="picture in picturePage.pictures" 
           :key="picture.id"
-          :picture="picture">
+          :picture="picture"
+          :pictureId="picture.id"
+          :ratio="picturesHeightRatio">
         </photo>
       </div>
     </div>
@@ -26,7 +28,8 @@ export default {
     return {
       isFetchingPictures: true,
       picturesFound: false,
-      picturesPages: []
+      picturesPages: [],
+      picturesHeightRatio: 0,
     }
   },
   methods: {
@@ -34,7 +37,6 @@ export default {
     updatePictures() {
       this.isFetchingPictures = true
       this.fetchPictures().then(response => {
-        console.log(response)
         this.isFetchingPictures = false
         this.picturesPages = response
         this.picturesFound = true
@@ -49,9 +51,30 @@ export default {
       if(beforeEnd < 100 && !this.isFetchingPictures) {
         this.updatePictures();
       }
+    },
+    setDefaultImageRatio() {
+      let breakpoints = [
+        {min_width: 1536, max_width: Infinity, ratio: 2.159}, // xxl
+        {min_width: 1280, max_width: 1536, ratio: 2.599}, // xl
+        {min_width: 1024, max_width: 1280, ratio: 3.279}, // lg
+        {min_width: 768, max_width: 1024, ratio: 4.425}, // md
+        {min_width: 640, max_width: 768, ratio: 3.478}, // sm
+        {min_width: 0, max_width: 768, ratio: 3.478}, // xs
+      ]
+
+      // Calculate the min height of the img element 
+      // based on container sizes
+      let windowWidth = window.innerWidth
+      for(let i = 0; i < breakpoints.length; i++) {
+        if(windowWidth > breakpoints[i].min_width && windowWidth < breakpoints[i].max_width) {
+          this.picturesHeightRatio = breakpoints[i].ratio
+          break;
+        }
+      }
     }
   },
   created() {
+    window.onresize = this.setDefaultImageRatio()
     window.addEventListener('scroll', this.handleScroll)
   },
   mounted() {

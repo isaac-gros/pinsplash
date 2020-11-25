@@ -16,6 +16,9 @@ export default createStore({
     incrementCurrentPage(state) {
       state.currentPage++
     },
+    resetCurrentPage(state) {
+      state.currentPage = 0
+    },
     addPictures (state, newPictures) {
       state.pictures.push(newPictures)
     },
@@ -41,6 +44,10 @@ export default createStore({
     }
   },
   actions: {
+
+    /**
+     * Picture fetching
+     */
     fetchPictures: ({ commit, state }) => {
       return new Promise((resolve, reject) => {
         commit('setLoading', true)
@@ -64,6 +71,33 @@ export default createStore({
           })
       })
     },
+    searchPictures: ({commit, state}, queryString) => {
+      return new Promise((resolve, reject) => {
+        commit('setLoading', true)
+        commit('incrementCurrentPage')
+
+        unsplash.search.photos(queryString, state.currentPage, 10)
+          .then(toJson)
+          .then(response => {
+            let newPage = {
+              'page': state.currentPage,
+              'pictures': response.results
+            }
+            commit('addPictures', newPage)
+            commit('setLoading', false)
+
+            resolve(state.pictures)
+          })
+          .catch(error => {
+            console.log(error)
+            reject()
+          })
+      })
+    },
+
+    /**
+     * Pins actions
+     */
     addPin: ({commit, state}, picture) => {
       return new Promise((resolve, reject) => {
         try {

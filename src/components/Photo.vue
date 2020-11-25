@@ -1,6 +1,5 @@
 <template>
-  <div class="photo w-full max-w-full block mb-5 relative">
-      <img :src="picture.urls.regular">
+  <div class="photo w-full max-w-full block mb-5 relative" :id="pictureId" :style="defaultColor + defaultHeight">
       <p class="title absolute bottom-0 left-0 p-2 text-white bg-black bg-opacity-30 w-full">
         {{ titleCase }}
       </p>
@@ -19,9 +18,13 @@ export default {
   name: 'photo',
   props: {
     picture: Object,
+    pictureId: String,
+    ratio: Number,
   },
   data() {
     return {
+      imgElement: '',
+      defaultHeightValue: 0,
       isPinned: false,
     }
   },
@@ -34,9 +37,26 @@ export default {
       } else {
         return 'Untitled'
       }
+    },
+    defaultColor() {
+      return "background-color: " + this.picture.color + ";"
+    },
+    defaultHeight() {
+      return "min-height: " + this.defaultHeightValue + ";"
     }
   },
+  created() {
+    let thisRef = this
+    let img = new Image()
+    img.src = this.picture.urls.regular
+    img.onload = function() {
+      thisRef.defaultHeightValue = (this.naturalHeight / thisRef.ratio)
+    }
+
+    this.imgElement = img
+  },
   mounted() {
+    document.getElementById(this.pictureId).prepend(this.imgElement) 
     this.checkPinStatus()
   },
   methods: {
@@ -55,7 +75,7 @@ export default {
           this.checkPinStatus()
         })
       }
-    }
+    },
   }
 }
 </script>
