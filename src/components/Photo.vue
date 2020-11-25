@@ -1,38 +1,59 @@
 <template>
-  <div class="photo w-full max-w-full h-auto block mb-5 relative">
-      <img :src="src">
+  <div class="photo w-full max-w-full block mb-5 relative">
+      <img :src="picture.urls.regular">
       <p class="title absolute bottom-0 left-0 p-2 text-white bg-black bg-opacity-30 w-full">
         {{ titleCase }}
       </p>
-      <button class="
-      absolute top-3 right-3 flex flex-col w-10 h-10 rounded-full p-2 
-      bg-white shadow-md focus:outline-none hover:bg-gray-300 transition-colors duration-300
-      ">
-        <photo-button-icon></photo-button-icon>
-      </button>
+      <photo-action :isPinned="isPinned" @click="pinAction"></photo-action>
   </div>
 </template>
 
 <script>
-import PhotoButtonIcon from './PhotoButtonIcon.vue'
+import { mapActions } from 'vuex'
+import PhotoAction from './PhotoAction.vue'
 
 export default {
   components: { 
-    PhotoButtonIcon 
+    PhotoAction 
   },
   name: 'photo',
   props: {
-    src: String,
-    alt: String,
+    picture: Object,
+  },
+  data() {
+    return {
+      isPinned: false,
+    }
   },
   computed: {
     titleCase() {
-      if(this.alt) {
-        let firstLetter = this.alt.charAt(0).toUpperCase()
-        let endOfString = this.alt.substring(1)
+      if(this.picture.alt_description) {
+        let firstLetter = this.picture.alt_description.charAt(0).toUpperCase()
+        let endOfString = this.picture.alt_description.substring(1)
         return firstLetter + endOfString
       } else {
         return 'Untitled'
+      }
+    }
+  },
+  mounted() {
+    this.checkPinStatus()
+  },
+  methods: {
+    ...mapActions(['checkPin', 'addPin', 'removePin']),
+    checkPinStatus() {
+      let pins = this.$store.state.pins
+      this.isPinned = pins.includes(this.picture)
+    },
+    pinAction() {
+      if(this.isPinned) {
+        this.removePin(this.picture).then(() => {
+          this.checkPinStatus()
+        })
+      } else {
+        this.addPin(this.picture).then(() => {
+          this.checkPinStatus()
+        })
       }
     }
   }

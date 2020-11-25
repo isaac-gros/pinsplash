@@ -8,3 +8,18 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      pinNumbers: Number
+    }
+  },
+  mounted() {
+    // Get number of pin
+  }
+}
+</script>

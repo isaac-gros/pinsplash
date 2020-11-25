@@ -6,22 +6,33 @@ export default createStore({
   state: {
     loading: false,
     currentPage: 0,
-    pictures: []
+    pictures: [],
+    pins: [],
   },
   mutations: {
     setLoading (state, loading) {
-      state.loading = loading;
+      state.loading = loading
     },
     incrementCurrentPage(state) {
-      state.currentPage++;
+      state.currentPage++
     },
     addPictures (state, newPictures) {
-      state.pictures.push(newPictures);
-    }
-  },
-  getters: {
-    getPictures: state => {
-      return state.pictures
+      state.pictures.push(newPictures)
+    },
+    addPin (state, picture) {
+      state.pins.push(picture)
+    },
+    removePin (state, picture) {
+      let pinToRemove = null;
+      state.pins.forEach((pinnedPicture, index) => {
+        pinToRemove = (pinnedPicture.id === picture.id) ? index : pinToRemove;
+      })
+
+      if(pinToRemove != null) {
+        state.pins.splice(pinToRemove, 1)
+      } else {
+        console.log('Nothing deleted') 
+      }
     }
   },
   actions: {
@@ -48,9 +59,31 @@ export default createStore({
           })
       })
     },
+    addPin: ({commit, state}, picture) => {
+      return new Promise((resolve, reject) => {
+        try {
+          commit('addPin', picture)
+          resolve(state.pins)
+        } catch(error) {
+          console.log(error)
+          reject()
+        }
+      })
+    },
+    removePin: ({commit, state}, picture) => {
+      return new Promise((resolve, reject) => {
+        try {
+          commit('removePin', picture)
+          resolve(state.pins)
+        } catch (error) {
+          console.log(error)
+          reject()
+        }
+      })
+    },
     debug({ commit, state }) {
-      console.log(commit);
-      console.log(state);
+      console.log(commit)
+      console.log(state)
     }
   }
 })

@@ -6,8 +6,7 @@
         <photo 
           v-for="picture in picturePage.pictures" 
           :key="picture.id"
-          :src="picture.urls.regular"
-          :alt="picture.alt_description">
+          :picture="picture">
         </photo>
       </div>
     </div>
