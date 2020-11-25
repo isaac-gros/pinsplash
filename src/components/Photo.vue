@@ -8,7 +8,7 @@
       absolute top-3 right-3 flex flex-col w-10 h-10 rounded-full p-2 
       bg-white shadow-md focus:outline-none hover:bg-gray-300 transition-colors duration-300
       ">
-        <photo-button-icon>
+        <photo-button-icon></photo-button-icon>
       </button>
   </div>
 </template>
@@ -27,9 +27,13 @@ export default {
   },
   computed: {
     titleCase() {
-      let firstLetter = this.alt.charAt(0).toUpperCase()
-      let endOfString = this.alt.substring(1)
-      return firstLetter + endOfString
+      if(this.alt) {
+        let firstLetter = this.alt.charAt(0).toUpperCase()
+        let endOfString = this.alt.substring(1)
+        return firstLetter + endOfString
+      } else {
+        return 'Untitled'
+      }
     }
   }
 }

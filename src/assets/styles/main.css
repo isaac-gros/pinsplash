@@ -20,18 +20,26 @@
 }
 
 /* Masonry */
-#masonry {
+.masonry {
     column-count: 3;
+    @apply relative mb-10 mt-10;
 }
 
 @media screen and (min-width: 640px) and (max-width: 768px) {
-    #masonry {
+    .masonry {
         column-count: 2;
     }
 }
 
 @media screen and (min-width: 0px) and (max-width: 640px) {
-    #masonry {
+    .masonry {
         column-count: 1;
     }
+}
+
+.page_index {
+    transform: translateY(-2rem);
+    margin-bottom: -1.3rem;
+    line-height: initial !important;
+    @apply font-bold text-xl;
 }

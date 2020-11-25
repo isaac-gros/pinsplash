@@ -15,8 +15,8 @@ export default createStore({
     incrementCurrentPage(state) {
       state.currentPage++;
     },
-    setPictures (state, pictures) {
-      state.pictures = pictures;
+    addPictures (state, newPictures) {
+      state.pictures.push(newPictures);
     }
   },
   getters: {
@@ -32,9 +32,12 @@ export default createStore({
 
         unsplash.photos.listPhotos(state.currentPage, 10)
           .then(toJson)
-          .then(json => {
-            let currentPictures = state.pictures
-            commit('setPictures', [...currentPictures, ...json])
+          .then(response => {
+            let newPage = {
+              'page': state.currentPage,
+              'pictures': response
+            }
+            commit('addPictures', newPage)
             commit('setLoading', false)
             resolve(state.pictures)
           })
