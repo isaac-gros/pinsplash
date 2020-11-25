@@ -35,6 +35,11 @@ export default createStore({
       }
     }
   },
+  getters: {
+    pinsCount: state => {
+      return state.pins.length
+    }
+  },
   actions: {
     fetchPictures: ({ commit, state }) => {
       return new Promise((resolve, reject) => {
@@ -81,9 +86,10 @@ export default createStore({
         }
       })
     },
-    debug({ commit, state }) {
-      console.log(commit)
-      console.log(state)
-    }
+    getPins: ({state}) => {
+      return new Promise((resolve) => {
+        resolve(state.pins)
+      })
+    },
   }
 })

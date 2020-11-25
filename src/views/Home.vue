@@ -30,10 +30,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'fetchPictures',
-      'debug'
-    ]),
+    ...mapActions(['fetchPictures']),
     updatePictures() {
       this.isFetchingPictures = true
       this.fetchPictures().then(response => {

@@ -7,8 +7,8 @@
 }
 
 /* Nav */
-#nav {
-    @apply py-5 flex w-full;
+#title {
+    margin: 30px 0;
 }
 
 #nav a {
