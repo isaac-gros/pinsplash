@@ -4,6 +4,7 @@ import { createStore } from 'vuex';
 const unsplash = new Unsplash({ accessKey: process.env.VUE_APP_UNSPLASH_KEY });
 export default createStore({
   state: {
+    error: false,
     loading: false,
     currentPage: 0,
     pictures: [],
@@ -13,6 +14,9 @@ export default createStore({
     setLoading (state, loading) {
       state.loading = loading
     },
+    setError (state, error) {
+      state.error = error
+    },
     incrementCurrentPage(state) {
       state.currentPage++
     },
@@ -21,6 +25,9 @@ export default createStore({
     },
     addPictures (state, newPictures) {
       state.pictures.push(newPictures)
+    },
+    resetCurrentPictures(state) {
+      state.pictures = []
     },
     addPin (state, picture) {
       state.pins.push(picture)
@@ -56,18 +63,27 @@ export default createStore({
         unsplash.photos.listPhotos(state.currentPage, 10)
           .then(toJson)
           .then(response => {
-            let newPage = {
-              'page': state.currentPage,
-              'pictures': response
+
+            if(response.errors) {
+              console.error('One or several errors occured. ', response.errors)
+              commit('setError', true)
+              commit('setLoading', false)
+              reject(response.errors)
+            } else {
+              let newPage = {
+                'page': state.currentPage,
+                'pictures': response
+              }
+              commit('addPictures', newPage)
+              commit('setLoading', false)
+              resolve(state.pictures)
             }
-            commit('addPictures', newPage)
-            commit('setLoading', false)
-            resolve(state.pictures)
           })
           .catch(error => {
+            commit('setError', true)
             commit('setLoading', false)
-            console.log(error)
-            reject()
+            console.error('One or several errors occured. ', error)
+            reject(error)
           })
       })
     },
@@ -79,19 +95,49 @@ export default createStore({
         unsplash.search.photos(queryString, state.currentPage, 10)
           .then(toJson)
           .then(response => {
-            let newPage = {
-              'page': state.currentPage,
-              'pictures': response.results
+            if(response.errors) {
+              console.error('One or several errors occured. ', response.errors)
+              commit('setError', true)
+              commit('setLoading', false)
+              reject(response.errors)
+            } else {
+              if(response.total > 0) {
+                let newPage = {
+                  'page': state.currentPage,
+                  'pictures': response.results
+                }
+                commit('addPictures', newPage)
+                commit('setLoading', false)
+                resolve({
+                  'total': response.total,
+                  'pictures': state.pictures
+                })
+              } else {
+                resolve({
+                  'total': 0,
+                  'pictures': state.pictures
+                })
+              }
             }
-            commit('addPictures', newPage)
-            commit('setLoading', false)
-
-            resolve(state.pictures)
           })
           .catch(error => {
-            console.log(error)
-            reject()
+            commit('setError', true)
+            commit('setLoading', false)
+            console.error('One or several errors occured. ', error)
+            reject(error)
           })
+      })
+    },
+    resetPictures: ({commit, state}) => {
+      return new Promise((resolve, reject) => {
+        try {
+          commit('resetCurrentPage')
+          commit('resetCurrentPictures')
+          resolve(state.pictures)
+        } catch(error) {
+          console.log(error)
+          reject()
+        }
       })
     },
 

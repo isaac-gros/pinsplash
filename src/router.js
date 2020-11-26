@@ -6,18 +6,18 @@ import Search from './views/Search.vue'
 const routes = [
   {
     path: '/',
-    name: 'Accueil',
-    component: Home
-  },
-  {
-    path: '/pinned',
-    name: 'Épingles',
-    component: Pinned
+    name: 'home',
+    component: Home,
   },
   { 
     path: '/search/:query',
-    name: 'Recherche', 
+    name: 'search', 
     component: Search
+  },
+  {
+    path: '/pinned',
+    name: 'pins',
+    component: Pinned
   }
 ]
 

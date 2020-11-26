@@ -9,7 +9,8 @@
       <p class="title absolute bottom-0 left-0 p-2 text-white bg-black bg-opacity-30 w-full">
         {{ titleCase }}
       </p>
-      <photo-action :isPinned="isPinned" @click="pinAction"></photo-action>
+      <photo-action :isPinned="isPinned" :animated="doPinAnimaiton" @click="pinAction">
+      </photo-action>
   </div>
 </template>
 
@@ -32,6 +33,7 @@ export default {
       picturesHeightRatio: 0,
       defaultHeightValue: 0,
       isPinned: false,
+      doPinAnimaiton: false,
     }
   },
   computed: {
@@ -68,8 +70,12 @@ export default {
           this.checkPinStatus()
         })
       } else {
+        this.doPinAnimaiton = true
         this.addPin(this.picture).then(() => {
           this.checkPinStatus()
+          setTimeout(() => {
+            this.doPinAnimaiton = false
+          }, 1000)
         })
       }
     },
