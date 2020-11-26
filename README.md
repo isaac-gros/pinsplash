@@ -1,4 +1,4 @@
-# vue-cli-project
+# Pinsplash
 
 ## Project setup
 ```
