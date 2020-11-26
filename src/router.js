@@ -8,16 +8,25 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
+    meta: {
+      title: 'Accueil - Pinsplash',
+    }
   },
   { 
     path: '/search/:query',
     name: 'search', 
-    component: Search
+    component: Search,
+    meta: {
+      title: 'Résultats de la recherche - Pinsplash',
+    },
   },
   {
     path: '/pinned',
     name: 'pins',
-    component: Pinned
+    component: Pinned,
+    meta: {
+      title: 'Épingles - Pinsplash',
+    }
   }
 ]
 
