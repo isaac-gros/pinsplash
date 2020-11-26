@@ -1,5 +1,11 @@
 <template>
-  <div class="photo w-full max-w-full block mb-5 relative" :id="pictureId" :style="defaultColor + defaultHeight">
+  <div class="photo w-full max-w-full block mb-5 relative" :id="pictureId">
+      <lazy-image
+        :width="1080" 
+        :height="defaultHeightValue"
+        :backgroundColor="picture.color" 
+        :lazySrc="picture.urls.regular">
+      </lazy-image>
       <p class="title absolute bottom-0 left-0 p-2 text-white bg-black bg-opacity-30 w-full">
         {{ titleCase }}
       </p>
@@ -10,11 +16,10 @@
 <script>
 import { mapActions } from 'vuex'
 import PhotoAction from './PhotoAction.vue'
+import LazyImage from './LazyImage.vue'
 
 export default {
-  components: { 
-    PhotoAction 
-  },
+  components: { PhotoAction, LazyImage },
   name: 'photo',
   props: {
     picture: Object,
@@ -24,6 +29,7 @@ export default {
   data() {
     return {
       imgElement: '',
+      picturesHeightRatio: 0,
       defaultHeightValue: 0,
       isPinned: false,
     }
@@ -38,25 +44,16 @@ export default {
         return 'Untitled'
       }
     },
-    defaultColor() {
-      return "background-color: " + this.picture.color + ";"
-    },
-    defaultHeight() {
-      return "min-height: " + this.defaultHeightValue + ";"
-    }
   },
   created() {
-    let thisRef = this
-    let img = new Image()
-    img.src = this.picture.urls.regular
-    img.onload = function() {
-      thisRef.defaultHeightValue = (this.naturalHeight / thisRef.ratio)
-    }
-
-    this.imgElement = img
+    // The images returned with urls.regular are always
+    // 1080px wide. this.picture.width return the full width of the image
+    let pictureWidth = 1080
+    let proportion = this.picture.width / pictureWidth
+    let pictureHeight = this.picture.height / proportion
+    this.defaultHeightValue = pictureHeight
   },
   mounted() {
-    document.getElementById(this.pictureId).prepend(this.imgElement) 
     this.checkPinStatus()
   },
   methods: {
