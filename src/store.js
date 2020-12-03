@@ -58,7 +58,6 @@ export default createStore({
     fetchPictures: ({ commit, state }) => {
       return new Promise((resolve, reject) => {
         commit('setLoading', true)
-        commit('incrementCurrentPage')
 
         unsplash.photos.listPhotos(state.currentPage, 10)
           .then(toJson)
@@ -70,6 +69,7 @@ export default createStore({
               commit('setLoading', false)
               reject(response.errors)
             } else {
+              commit('incrementCurrentPage')
               let newPage = {
                 'page': state.currentPage,
                 'pictures': response

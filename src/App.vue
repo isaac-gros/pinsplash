@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto">
     <h1 class="text-4xl border-b border-black" id="title">Pinsplash</h1>
-    <div id="nav" class="py-5 flex w-full sticky top-0 z-10 bg-white">
+    <div id="nav" class="flex flex-wrap w-full sticky top-0 z-10 bg-white">
       <router-link to="/" class="flex items-center">Accueil</router-link>
       <router-link to="/pinned" class="flex items-center">
         Épingles
@@ -14,7 +14,7 @@
       </router-link>
       <search-bar></search-bar>
     </div>
-    <router-view/>
+    <router-view class="mt-12"/>
   </div>
 </template>
 

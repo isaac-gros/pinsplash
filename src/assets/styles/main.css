@@ -11,18 +11,22 @@
     padding: 30px 0;
 }
 
-#nav a {
-    @apply text-gray-500 mr-12;
+#nav > a {
+    @apply text-gray-400 mr-12 py-5;
 }
 
-#nav a.router-link-exact-active {
-    @apply font-bold text-gray-800;
+#nav > a.router-link-exact-active {
+    @apply font-bold text-gray-800 border-b-4 border-black;
 }
 
 /* Masonry */
 .masonry {
     column-count: 3;
     @apply relative mb-10 mt-10;
+}
+
+#toggle-search {
+    display: none;
 }
 
 @media screen and (min-width: 640px) and (max-width: 768px) {
@@ -32,8 +36,61 @@
 }
 
 @media screen and (min-width: 0px) and (max-width: 640px) {
+    
+    /* Navbar */
+    #title {
+        padding: 30px 15px;
+    }
+    
+    #nav > a {
+        padding-left: 15px;
+        padding-right: 15px;
+        @apply text-gray-400 py-5;
+    }
+
+    /* Searchbar */
+    #searchbar {
+        z-index: -1;
+        @apply absolute top-0 left-0 right-0 bottom-0 content-between;
+    }
+
+    #searchbar #toggle-search {
+        @apply block;
+    }
+
+    #searchbar input {
+        transition: 0.6s ease-out;
+        @apply max-w-none w-0 p-0;
+    }
+
+    #searchbar button[type="submit"] {
+        @apply block px-2 w-8 border-transparent;
+    }
+
+    #searchbar.is-open {
+        @apply z-10;
+    }
+
+    #searchbar.is-open input {
+        @apply w-full p-2;
+    }
+
+    #searchbar.is-open #toggle-search {
+        @apply border-gray-200 border-b;
+    }
+
+    #searchbar.is-open button[type="submit"] {
+        @apply border-gray-200;
+    }
+
+    /* Masonry */
     .masonry {
         column-count: 1;
+    }
+
+    /* Other */
+    p {
+        padding: 0 15px;
     }
 }
 
@@ -47,11 +104,12 @@
 /* Errors */
 #error {
     @apply flex justify-center items-center 
-    absolute top-0 bottom-0 right-0 left-0 z-0 overflow-hidden;
+    fixed top-0 bottom-0 right-0 left-0 z-0 overflow-hidden;
 }
 
 #error img {
     max-width: 100%;
     width: 400px;
     height: auto;
+    padding: 20px;
 }

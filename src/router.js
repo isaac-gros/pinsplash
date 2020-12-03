@@ -3,13 +3,14 @@ import Home from './views/Home.vue'
 import Pinned from './views/Pinned.vue'
 import Search from './views/Search.vue'
 
+const globalName = 'Pinsplash';
 const routes = [
   {
     path: '/',
     name: 'home',
     component: Home,
     meta: {
-      title: 'Accueil - Pinsplash',
+      title: 'Accueil',
     }
   },
   { 
@@ -17,7 +18,7 @@ const routes = [
     name: 'search', 
     component: Search,
     meta: {
-      title: 'Résultats de la recherche - Pinsplash',
+      title: 'Résultats de la recherche',
     },
   },
   {
@@ -25,7 +26,7 @@ const routes = [
     name: 'pins',
     component: Pinned,
     meta: {
-      title: 'Épingles - Pinsplash',
+      title: 'Épingles',
     }
   }
 ]
@@ -33,6 +34,10 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to) => {
+  document.title = to.meta.title + ' - ' + globalName
 })
 
 export default router

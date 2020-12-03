@@ -29,9 +29,10 @@ export default {
   components: { Photo, Error },
   data() {
     return {
+      query: '',
       displayError: false,
       errorType: 'error',
-      isFetchingPictures: true,
+      isFetchingPictures: false,
       picturesFound: false,
       picturesPages: [],
       picturesHeightRatio: 0,
@@ -40,23 +41,29 @@ export default {
   methods: {
     ...mapActions(['searchPictures', 'resetPictures']),
     updateSearch() {
-      this.searchPictures(this.$route.params.query).then(response => {
-        if(response.total != 0) {
-          this.picturesFound = true
-          this.picturesPages = response
-          this.displayError = false
-          this.isFetchingPictures = false
-        } else {
-          this.errorType = 'not_found'
+      if(!this.isFetchingPictures) {
+        this.isFetchingPictures = true
+        this.searchPictures(this.$route.params.query).then(response => {
+          if(response.total != 0) {
+            this.picturesFound = true
+            this.picturesPages = response
+            this.displayError = false
+            this.isFetchingPictures = false
+            setTimeout(() => {
+              this.isFetchingPictures = false
+            }, 3000)
+          } else {
+            this.errorType = 'not_found'
+            this.isFetchingPictures = false
+            this.picturesFound = false
+          }
+        }).catch(error => {
+          console.log(error)
           this.isFetchingPictures = false
           this.picturesFound = false
-        }
-      }).catch(error => {
-        console.log(error)
-        this.isFetchingPictures = false
-        this.picturesFound = false
-        this.displayError = true
-      })
+          this.displayError = true
+        })
+      }
     },
     handleScroll() {
       let scrollHeight = document.body.scrollHeight;
@@ -64,7 +71,7 @@ export default {
       let windowHeight = window.innerHeight;
       let beforeEnd = scrollHeight - (scrollPos + windowHeight - 50);
 
-      if (beforeEnd < 100 && !this.isFetchingPictures) {
+      if (beforeEnd < 100) {
         this.updateSearch();
       }
     },
@@ -73,6 +80,7 @@ export default {
     window.addEventListener("scroll", this.handleScroll);
   },
   mounted() {
+    this.query = this.$route.params.query
     this.updateSearch()
   },
   watch: {
@@ -81,6 +89,13 @@ export default {
         this.resetPictures().then(() => {
           return
         })
+      }
+    },
+    '$route.params.query': function(query) {
+      if(query != this.query) {
+        this.query = query
+        this.resetPictures()
+        this.updateSearch()
       }
     }
   }

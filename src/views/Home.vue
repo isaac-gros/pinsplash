@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       displayError: false,
-      isFetchingPictures: true,
+      isFetchingPictures: false,
       picturesFound: false,
       picturesPages: [],
     };
@@ -31,16 +31,21 @@ export default {
   methods: {
     ...mapActions(["fetchPictures", "resetPictures"]),
     updatePictures() {
-      this.fetchPictures().then((response) => {
-        this.displayError = false
-        this.isFetchingPictures = false
-        this.picturesPages = response
-        this.picturesFound = true
-      }).catch(error => {
-        console.log(error)
-        this.isFetchingPictures = false
-        this.displayError = true
-      });
+      if(!this.isFetchingPictures) {
+        this.isFetchingPictures = true
+        this.fetchPictures().then((response) => {
+          this.displayError = false
+          this.picturesPages = response
+          this.picturesFound = true
+          setTimeout(() => {
+            this.isFetchingPictures = false
+          }, 3000)
+        }).catch(error => {
+          console.log(error)
+          this.isFetchingPictures = false
+          this.displayError = true
+        });
+      }
     },
     handleScroll() {
       let scrollHeight = document.body.scrollHeight;
@@ -48,7 +53,7 @@ export default {
       let windowHeight = window.innerHeight;
       let beforeEnd = scrollHeight - (scrollPos + windowHeight - 50);
 
-      if (beforeEnd < 100 && !this.isFetchingPictures) {
+      if (beforeEnd < 100) {
         this.updatePictures();
       }
     },
