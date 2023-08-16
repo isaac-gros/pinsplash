@@ -29,6 +29,7 @@ export default {
   components: { Photo, Error },
   data() {
     return {
+      enableSearch: false,
       query: '',
       displayError: false,
       errorType: 'error',
@@ -41,17 +42,16 @@ export default {
   methods: {
     ...mapActions(['searchPictures', 'resetPictures']),
     updateSearch() {
-      if(!this.isFetchingPictures) {
+      if(!this.isFetchingPictures && this.enableSearch) {
         this.isFetchingPictures = true
         this.searchPictures(this.$route.params.query).then(response => {
           if(response.total != 0) {
             this.picturesFound = true
             this.picturesPages = response
             this.displayError = false
-            this.isFetchingPictures = false
             setTimeout(() => {
               this.isFetchingPictures = false
-            }, 3000)
+            }, 1000)
           } else {
             this.errorType = 'not_found'
             this.isFetchingPictures = false
@@ -80,16 +80,16 @@ export default {
     window.addEventListener("scroll", this.handleScroll);
   },
   mounted() {
+    this.enableSearch = true
     this.query = this.$route.params.query
     this.updateSearch()
   },
+  beforeUnmount() {
+    this.enableSearch = false
+  },
   watch: {
-    $route(to, from) {
-      if(to.name != 'pins' || from.name == 'pins') {
-        this.resetPictures().then(() => {
-          return
-        })
-      }
+    $route() {
+      this.query = ''
     },
     '$route.params.query': function(query) {
       if(query != this.query) {

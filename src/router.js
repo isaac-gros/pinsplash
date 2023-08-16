@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from './views/Home.vue'
 import PinnedView from './views/Pinned.vue'
 import SearchView from './views/Search.vue'
+import store from './store'
 
 const globalName = 'Pinsplash';
 const routes = [
@@ -38,6 +39,8 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   document.title = to.meta.title + ' - ' + globalName
+  store.commit('resetCurrentPage')
+  store.commit('resetCurrentPictures')
 })
 
 export default router

@@ -39,7 +39,7 @@ export default {
           this.picturesFound = true
           setTimeout(() => {
             this.isFetchingPictures = false
-          }, 3000)
+          }, 1000)
         }).catch(error => {
           console.log(error)
           this.isFetchingPictures = false
@@ -53,7 +53,7 @@ export default {
       let windowHeight = window.innerHeight;
       let beforeEnd = scrollHeight - (scrollPos + windowHeight - 50);
 
-      if (beforeEnd < 100) {
+      if (beforeEnd <= 100) {
         this.updatePictures();
       }
     },
@@ -69,15 +69,6 @@ export default {
   },
   unmounted() {
     window.removeEventListener("scroll", this.handleScroll);
-  },
-  watch: {
-    $route(to) {
-      if(to.name == 'search') {
-        this.resetPictures().then(() => {
-          return
-        })
-      }
-    }
   }
 };
 </script>

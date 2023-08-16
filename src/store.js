@@ -21,7 +21,7 @@ export default createStore({
       state.currentPage++
     },
     resetCurrentPage(state) {
-      state.currentPage = 0
+      state.currentPage = 1
     },
     addPictures (state, newPictures) {
       state.pictures.push(newPictures)
@@ -59,7 +59,7 @@ export default createStore({
       return new Promise((resolve, reject) => {
         commit('setLoading', true)
 
-        unsplash.photos.list({ page: state.currentPage }, 10)
+        unsplash.photos.list({ page: state.currentPage, perPage: 10 })
           .then(toJson)
           .then(response => {
             console.log(response)
@@ -91,26 +91,26 @@ export default createStore({
     searchPictures: ({commit, state}, queryString) => {
       return new Promise((resolve, reject) => {
         commit('setLoading', true)
-        commit('incrementCurrentPage')
 
-        unsplash.search.photos(queryString, state.currentPage, 10)
+        unsplash.search.getPhotos({ query: queryString, page: state.currentPage, perPage: 10 })
           .then(toJson)
           .then(response => {
-            if(response.errors) {
+            if(response.status != 200) {
               console.error('One or several errors occured. ', response.errors)
               commit('setError', true)
               commit('setLoading', false)
               reject(response.errors)
             } else {
-              if(response.total > 0) {
+              if(response.response.total > 0) {
                 let newPage = {
                   'page': state.currentPage,
-                  'pictures': response.results
+                  'pictures': response.response.results
                 }
                 commit('addPictures', newPage)
                 commit('setLoading', false)
+                commit('incrementCurrentPage')
                 resolve({
-                  'total': response.total,
+                  'total': response.response.total,
                   'pictures': state.pictures
                 })
               } else {
@@ -127,18 +127,6 @@ export default createStore({
             console.error('One or several errors occured. ', error)
             reject(error)
           })
-      })
-    },
-    resetPictures: ({commit, state}) => {
-      return new Promise((resolve, reject) => {
-        try {
-          commit('resetCurrentPage')
-          commit('resetCurrentPictures')
-          resolve(state.pictures)
-        } catch(error) {
-          console.log(error)
-          reject()
-        }
       })
     },
 
