@@ -25,7 +25,7 @@ import Photo from '../components/Photo'
 import Error from "../components/Error"
 
 export default {
-  name: 'Search',
+  name: 'SearchView',
   components: { Photo, Error },
   data() {
     return {

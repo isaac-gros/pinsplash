@@ -28,7 +28,7 @@ import { mapActions } from 'vuex';
 import Photo from '../components/Photo';
 
 export default {
-  name: 'Home',
+  name: 'PinnedView',
   components: {
     Photo
   },

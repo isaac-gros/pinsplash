@@ -9,7 +9,7 @@
 import lozad from 'lozad'
 
 export default {
-  name: 'LazyImage',
+  name: 'LazyImageItem',
   props: {
     width: Number,
     height: Number,

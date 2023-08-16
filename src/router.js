@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from './views/Home.vue'
-import Pinned from './views/Pinned.vue'
-import Search from './views/Search.vue'
+import HomeView from './views/Home.vue'
+import PinnedView from './views/Pinned.vue'
+import SearchView from './views/Search.vue'
 
 const globalName = 'Pinsplash';
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: HomeView,
     meta: {
       title: 'Accueil',
     }
@@ -16,7 +16,7 @@ const routes = [
   { 
     path: '/search/:query',
     name: 'search', 
-    component: Search,
+    component: SearchView,
     meta: {
       title: 'Résultats de la recherche',
     },
@@ -24,7 +24,7 @@ const routes = [
   {
     path: '/pinned',
     name: 'pins',
-    component: Pinned,
+    component: PinnedView,
     meta: {
       title: 'Épingles',
     }

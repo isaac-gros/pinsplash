@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'Error',
+  name: 'ErrorView',
   props: {
     errorType: String
   }

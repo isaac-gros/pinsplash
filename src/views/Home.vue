@@ -3,7 +3,7 @@
     <div v-if="picturesFound">
       <div class="masonry" v-for="picturePage in picturesPages" :key="picturePage.page">
         <p class="page_index">Page {{ picturePage.page }} —</p>
-        <photo v-for="picture in picturePage.pictures" :key="picture.id" :picture="picture" :pictureId="picture.id"> </photo>
+        <photo-item v-for="picture in picturePage.pictures" :key="picture.id" :picture="picture" :pictureId="picture.id"> </photo-item>
       </div>
     </div>
     <div v-if="(!picturesFound || displayError) && !isFetchingPictures">
@@ -14,12 +14,12 @@
 
 <script>
 import { mapActions } from "vuex";
-import Photo from "../components/Photo";
+import PhotoItem from "../components/Photo";
 import Error from "../components/Error";
 
 export default {
-  name: "Home",
-  components: { Photo, Error },
+  name: "HomeView",
+  components: { PhotoItem, Error },
   data() {
     return {
       displayError: false,

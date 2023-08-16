@@ -1,12 +1,12 @@
-import Unsplash, { toJson } from 'unsplash-js';
+import { createApi, toJson } from 'unsplash-js';
 import { createStore } from 'vuex';
 
-const unsplash = new Unsplash({ accessKey: process.env.VUE_APP_UNSPLASH_KEY });
+const unsplash = createApi({ accessKey: process.env.VUE_APP_UNSPLASH_KEY });
 export default createStore({
   state: {
     error: false,
     loading: false,
-    currentPage: 0,
+    currentPage: 1,
     pictures: [],
     pins: [],
   },
@@ -59,21 +59,22 @@ export default createStore({
       return new Promise((resolve, reject) => {
         commit('setLoading', true)
 
-        unsplash.photos.listPhotos(state.currentPage, 10)
+        unsplash.photos.list({ page: state.currentPage }, 10)
           .then(toJson)
           .then(response => {
+            console.log(response)
 
-            if(response.errors) {
+            if(response.status != 200) {
               console.error('One or several errors occured. ', response.errors)
               commit('setError', true)
               commit('setLoading', false)
               reject(response.errors)
             } else {
-              commit('incrementCurrentPage')
               let newPage = {
                 'page': state.currentPage,
-                'pictures': response
+                'pictures': response.response.results
               }
+              commit('incrementCurrentPage')
               commit('addPictures', newPage)
               commit('setLoading', false)
               resolve(state.pictures)

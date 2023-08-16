@@ -1,11 +1,11 @@
 <template>
   <div class="photo w-full max-w-full block mb-5 relative" :id="pictureId">
-      <lazy-image
+      <lazy-image-item
         :width="1080" 
         :height="defaultHeightValue"
         :backgroundColor="picture.color" 
         :lazySrc="picture.urls.regular">
-      </lazy-image>
+      </lazy-image-item>
       <p class="title absolute bottom-0 left-0 p-2 text-white bg-black bg-opacity-30 w-full">
         {{ titleCase }}
       </p>
@@ -17,11 +17,11 @@
 <script>
 import { mapActions } from 'vuex'
 import PhotoAction from './PhotoAction.vue'
-import LazyImage from './LazyImage.vue'
+import LazyImageItem from './LazyImage.vue'
 
 export default {
-  components: { PhotoAction, LazyImage },
-  name: 'photo',
+  components: { PhotoAction, LazyImageItem },
+  name: 'PhotoItem',
   props: {
     picture: Object,
     pictureId: String,
